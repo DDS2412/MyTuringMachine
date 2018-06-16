@@ -1,0 +1,135 @@
+﻿<Window x:Class="WpfTuringMachine.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfTuringMachine"
+        mc:Ignorable="d"
+        Title="TuringMachine" Height="450" Width="1200">
+    <Window.Resources>
+        <Style x:Key="Cell" TargetType="TextBox">
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Control.FontSize" Value="16"/>
+            <Setter Property="Control.FontWeight" Value="Bold"/>
+            <EventSetter Event="TextChanged" Handler="Cell_TextChanged"/>
+        </Style>
+        <Style x:Key="Label">
+            <Setter Property="Control.FontSize" Value="20"/>
+            <Setter Property="Control.FontWeight" Value="Bold"/>
+            <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="1" Content="S0" Style="{StaticResource Label}"/>
+            <Label Grid.Column="2" Content="0" Style="{StaticResource Label}"/>
+            <Label Grid.Column="3" Content="1" Style="{StaticResource Label}"/>
+            <Label Grid.Column="4" Content="2" Style="{StaticResource Label}"/>
+            <Label Grid.Row="1" Content="q1" Style="{StaticResource Label}"/>
+            <Label Grid.Row="2" Content="q2" Style="{StaticResource Label}"/>
+            <Label Grid.Row="3" Content="q3" Style="{StaticResource Label}"/>
+            <Label Grid.Row="4" Content="q4" Style="{StaticResource Label}"/>
+            <TextBox Name="cell11" Grid.Row="1" Grid.Column="1" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell12" Grid.Row="1" Grid.Column="2" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell13" Grid.Row="1" Grid.Column="3" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell14" Grid.Row="1" Grid.Column="4" Style="{StaticResource Cell}"/>
+
+            <TextBox Name="cell21" Grid.Row="2" Grid.Column="1" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell22" Grid.Row="2" Grid.Column="2" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell23" Grid.Row="2" Grid.Column="3" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell24" Grid.Row="2" Grid.Column="4" Style="{StaticResource Cell}"/>
+
+            <TextBox Name="cell31" Grid.Row="3" Grid.Column="1" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell32" Grid.Row="3" Grid.Column="2" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell33" Grid.Row="3" Grid.Column="3" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell34" Grid.Row="3" Grid.Column="4" Style="{StaticResource Cell}"/>
+
+            <TextBox Name="cell41" Grid.Row="4" Grid.Column="1" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell42" Grid.Row="4" Grid.Column="2" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell43" Grid.Row="4" Grid.Column="3" Style="{StaticResource Cell}"/>
+            <TextBox Name="cell44" Grid.Row="4" Grid.Column="4" Style="{StaticResource Cell}"/>
+            <!--
+            <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource Label}" FontSize="16" Content="Размер:"/>
+            <ComboBox Grid.Row="5" Grid.Column="1" FontSize="18"
+                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+
+                <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <TextBlock Text="3x2"/>
+                </ComboBoxItem>
+                <ComboBoxItem IsSelected="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <TextBlock Text="4x3"/>
+                </ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <TextBlock Text="4x4"/>
+                </ComboBoxItem>
+            </ComboBox> -->
+            <Label Name="ErrorField" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
+                   Foreground="Red" FontSize="15" HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   Visibility="Hidden" Margin="20 4" Content="Вы некорректно ввели значения"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Label Content="Введите необходимое число итераций" FontSize="16"/>
+                <TextBox Name="CountOfIteration"  Text="{Binding CountOfIteration}" FontSize="16" VerticalAlignment="Center" Width="80" TextAlignment="Right"/>
+            </StackPanel>
+            <Label Content="Все итерации" Grid.Row="1" Style="{StaticResource Label}"/>
+            <ListView Grid.Row="2" Name="IterationListView" FontSize="12" Margin="10"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="10 0">
+                <Label Content="p0 = S0" Grid.Row="1" Style="{StaticResource Label}"/>
+                <TextBox Text="{Binding FirstIteration,UpdateSourceTrigger=PropertyChanged}" MaxLength="20" Width="200" FontSize="16"
+                         Style="{StaticResource Cell}" Margin="10 4"/>
+                <Label Content="S0" Grid.Row="1" Style="{StaticResource Label}"/>
+                <Label Style="{StaticResource Label}" FontSize="16" Content="Выбрать тест:"/>
+                <ComboBox Grid.Row="5" FontSize="18" SelectionChanged="ComboBox_SelectionChanged"
+                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <ComboBoxItem IsSelected="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBlock Text="Test 1"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBlock Text="Test 2"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBlock Text="Test 3"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBlock Text="Test 4"/>
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </Grid>    
+        <Button Name="All" Grid.Row="1" Content="Все итерации" FontSize="20" Margin="20" Click="All_Click"/>
+        <Button Name="Next" Grid.Column="1" Grid.Row="1" Content="Следующая итерация" FontSize="20" Margin="20" Click="Next_Click"/>
+    </Grid>
+</Window>
